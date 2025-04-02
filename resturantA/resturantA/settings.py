@@ -11,7 +11,14 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
+# Load .env file
+BASE_DIR = Path(__file__).resolve().parent.parent
+env_path = BASE_DIR / '.env'
+if env_path.exists():
+    load_dotenv(env_path)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -39,10 +46,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'dishes',
-    'order'
+    'order',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -120,6 +129,39 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static') 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') 
+MEDIA_URL = '/media/'
+MEDIAFILES_DIRS = [
+    BASE_DIR / "media"
+    ]
+
+# settings.py
+
+# Email configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # For Gmail
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_TIMEOUT = 30
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER') # From .env in production
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD') # From .env in production
+RECEIVER_EMAIL = os.getenv('RECEIVER_EMAIL')
+
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # Next.js dev server
+    # Add your production domain here
+]
+
+# CSRF Protection (optional for testing)
+CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]
+
+CORS_ALLOW_ALL_ORIGINS = True
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 

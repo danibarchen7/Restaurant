@@ -1,6 +1,23 @@
+# Ignore Python virtual environments
 env/
+venv/
+
+# Ignore compiled Python files
+__pycache__/
+*.pyc
+
+# Ignore Python dependencies installed via pip
 site-packages/
-.vscode/
-.log/
-.DS_Store/
+
+# Ignore Node.js dependencies
 node_modules/
+
+# Ignore IDE specific files
+.vscode/
+
+# Ignore log files
+*.log
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
