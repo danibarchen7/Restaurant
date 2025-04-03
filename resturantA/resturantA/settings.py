@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
-# import dj_database_url
+import dj_database_url
 # Load .env file
 BASE_DIR = Path(__file__).resolve().parent.parent
 env_path = BASE_DIR / '.env'
@@ -92,15 +92,23 @@ WSGI_APPLICATION = 'resturantA.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'restaurant_aziz',
+#         'USER': 'dani',
+#         'PASSWORD': os.getenv('DP_PASSWORD'),
+#         'HOST': os.getenv('DP_HOST'),
+#         'PORT': '5432',  # Default PostgreSQL port
+#     }
+# }
+# Replace the SQLite DATABASES configuration with PostgreSQL:
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'restaurant_aziz',
-        'USER': 'dani',
-        'PASSWORD': os.getenv('DP_PASSWORD'),
-        'HOST': os.getenv('DP_HOST'),
-        'PORT': '5432',  # Default PostgreSQL port
-    }
+    'default': dj_database_url.config(
+        # Replace this value with your local database's connection string.
+        default='postgresql://dani:t7SsoBPiHdmDAXy2gW2xmt6qeXEM8trN@dpg-cvmnk7fdiees73fo2m90-a.frankfurt-postgres.render.com/restaurant_aziz',
+        conn_max_age=600
+    )
 }
 
 # Password validation
