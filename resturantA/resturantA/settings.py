@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'dishes',
     'order',
+    'api',
     'corsheaders',
 ]
 
