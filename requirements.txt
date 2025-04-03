@@ -8,8 +8,5 @@ python-dotenv==1.1.0
 sqlparse==0.5.3
 unicorn==2.1.3
 uvicorn==0.34.0
-<<<<<<< HEAD
 whitenoise==6.9.0
-=======
-whitenoise==6.9.0
->>>>>>> c3cd7533357206d5349ce78e008cb3ec7f0d791c
+
