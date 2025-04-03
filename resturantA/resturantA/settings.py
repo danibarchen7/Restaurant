@@ -35,7 +35,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
-application = get_asgi_application()
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'api',
     'corsheaders',
 ]
-
+application = get_asgi_application()
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
