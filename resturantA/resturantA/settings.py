@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 import dj_database_url
+from django.core.asgi import get_asgi_application
 # Load .env file
 BASE_DIR = Path(__file__).resolve().parent.parent
 env_path = BASE_DIR / '.env'
@@ -34,7 +35,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
-
+application = get_asgi_application()
 # Application definition
 
 INSTALLED_APPS = [
