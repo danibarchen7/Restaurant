@@ -105,13 +105,29 @@ WSGI_APPLICATION = 'resturantA.wsgi.application'
 #     }
 # }
 # Replace the SQLite DATABASES configuration with PostgreSQL:
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         # Replace this value with your local database's connection string.
+#         default='postgresql://dani:t7SsoBPiHdmDAXy2gW2xmt6qeXEM8trN@dpg-cvmnk7fdiees73fo2m90-a.frankfurt-postgres.render.com/restaurant_aziz',
+#         conn_max_age=600
+#     )
+# }
+# Default database configuration (for local development)
 DATABASES = {
-    'default': dj_database_url.config(
-        # Replace this value with your local database's connection string.
-        default='postgresql://dani:t7SsoBPiHdmDAXy2gW2xmt6qeXEM8trN@dpg-cvmnk7fdiees73fo2m90-a.frankfurt-postgres.render.com/restaurant_aziz',
-        conn_max_age=600
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
 }
+
+# Override with Render PostgreSQL (production)
+if os.environ.get('RENDER', False):  # Render automatically sets the `RENDER` env variable
+    DATABASES['default'] = dj_database_url.parse(
+        'postgresql://dani:t7SsoBPiHdmDAXy2gW2xmt6qeXEM8trN@dpg-cvmnk7fdiees73fo2m90-a.frankfurt-postgres.render.com/restaurant_aziz',
+        conn_max_age=600,
+        conn_health_checks=True,
+        ssl_require=True  # Required for Render PostgreSQL
+    )
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
