@@ -15,6 +15,8 @@ import os
 from dotenv import load_dotenv
 import dj_database_url
 from django.core.asgi import get_asgi_application
+# ✅ Add this at the top
+RENDER = os.environ.get('RENDER', 'False') == 'True'
 # Load .env file
 BASE_DIR = Path(__file__).resolve().parent.parent
 env_path = BASE_DIR / '.env'
@@ -28,7 +30,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-i-b7on3on^_%_@v&xgf5!gd)4hbuswdd=y!9o5kqk$pb30%opb'
+# SECRET_KEY = 'django-insecure-i-b7on3on^_%_@v&xgf5!gd)4hbuswdd=y!9o5kqk$pb30%opb'
+SECRET_KEY = 'f1e52cb51182c68b3dc82d27568d3113'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -53,9 +56,9 @@ INSTALLED_APPS = [
 ]
 application = get_asgi_application()
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -88,12 +91,12 @@ WSGI_APPLICATION = 'resturantA.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
@@ -113,15 +116,15 @@ WSGI_APPLICATION = 'resturantA.wsgi.application'
 #     )
 # }
 # Default database configuration (for local development)
+# ✅ Render Production Configuration
+
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',  # For PostgreSQL [[6]][[7]]
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT'),
-    }
+    'default': dj_database_url.config(
+        default='postgresql://dani:t7SsoBPiHdmDAXy2gW2xmt6qeXEM8trN@dpg-cvmnk7fdiees73fo2m90-a.frankfurt-postgres.render.com/restaurant_aziz',
+        conn_max_age=600,
+        ssl_require=True  # Required for Render PostgreSQL
+    )
 }
 # Override with Render PostgreSQL (production)
 
@@ -159,24 +162,31 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
-if not DEBUG:
-    # Tell Django to copy static assets into a path called `staticfiles` (this is specific to Render)
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    # Enable the WhiteNoise storage backend, which compresses static files to reduce disk use
-    # and renames the files with unique names for each version to support long-term caching
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATIC_URL = 'static/'
+# if not DEBUG:
+#     # Tell Django to copy static assets into a path called `staticfiles` (this is specific to Render)
+#     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+#     # Enable the WhiteNoise storage backend, which compresses static files to reduce disk use
+#     # and renames the files with unique names for each version to support long-term caching
+#     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static') 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-]
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media') 
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'static') 
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'static')
+# ]
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media') 
+# MEDIA_URL = '/media/'
+# MEDIAFILES_DIRS = [
+#     BASE_DIR / "media"
+#     ]
+# ✅ Simplified Static Configuration
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Media Files
 MEDIA_URL = '/media/'
-MEDIAFILES_DIRS = [
-    BASE_DIR / "media"
-    ]
-
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # settings.py
 
 # Email configuration
