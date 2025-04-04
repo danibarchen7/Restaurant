@@ -122,7 +122,7 @@ DATABASES = {
 
 # Override with Render PostgreSQL (production)
 if os.environ.get('RENDER', False):  # Render automatically sets the `RENDER` env variable
-    DATABASES['default'] = dj_database_url.parse(
+    DATABASES['default'] = dj_database_url.config(default=
         'postgresql://dani:t7SsoBPiHdmDAXy2gW2xmt6qeXEM8trN@dpg-cvmnk7fdiees73fo2m90-a.frankfurt-postgres.render.com/restaurant_aziz',
         conn_max_age=600,
         conn_health_checks=True,
