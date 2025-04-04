@@ -115,19 +115,15 @@ WSGI_APPLICATION = 'resturantA.wsgi.application'
 # Default database configuration (for local development)
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',  # For PostgreSQL [[6]][[7]]
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
     }
 }
-
 # Override with Render PostgreSQL (production)
-if os.environ.get('RENDER', False):  # Render automatically sets the `RENDER` env variable
-    DATABASES['default'] = dj_database_url.config(default=
-        'postgresql://dani:t7SsoBPiHdmDAXy2gW2xmt6qeXEM8trN@dpg-cvmnk7fdiees73fo2m90-a.frankfurt-postgres.render.com/restaurant_aziz',
-        conn_max_age=600,
-        conn_health_checks=True,
-        ssl_require=True  # Required for Render PostgreSQL
-    )
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
