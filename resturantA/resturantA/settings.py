@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'api',
     'corsheaders',
 ]
-application = get_asgi_application()
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -98,7 +98,7 @@ DATABASES = {
     )
 }
 
-print("DATABASES configuration:", DATABASES)
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
@@ -225,3 +225,4 @@ CORS_ALLOW_ALL_ORIGINS = True
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+application = get_asgi_application()
