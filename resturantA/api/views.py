@@ -154,7 +154,6 @@ class SendOrderEmailAPIView(APIView):
                 "=====================",
                 f"👤 Customer: {data['name']} <{data['email']}>",
                 f"⏰ Preferred Time: {data['time'].strftime('%H:%M')}",
-                f"💳 Payment Method: {'Online' if data['payOnline'] else 'Cash On Delivery'}",
                 "\n🍽️ Order Items:"
             ]
 
