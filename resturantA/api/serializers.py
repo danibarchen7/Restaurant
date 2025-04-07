@@ -31,10 +31,11 @@
 #     notes = serializers.CharField(required=False, allow_blank=True)
 #     receipt = serializers.FileField(required=False)
 from rest_framework import serializers
-
+from dishes.models import MenuItem
 class MealItemSerializer(serializers.Serializer):
-    meal = serializers.ChoiceField(
-        choices=["Pizza", "Burger", "Salad", "Pasta", "Steak"],
+    meal = serializers.SlugRelatedField(
+        slug_field="name",
+        queryset=MenuItem.objects.all(),
         help_text="Select from available meals"
     )
     count = serializers.IntegerField(
@@ -48,7 +49,6 @@ class OrderSerializer(serializers.Serializer):
     email = serializers.EmailField()
     items = MealItemSerializer(many=True)
     time = serializers.TimeField(format="%H:%M")
-    payOnline = serializers.BooleanField()
 
     def validate_items(self, value):
         if len(value) < 1:
